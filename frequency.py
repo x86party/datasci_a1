@@ -37,7 +37,8 @@ def extract_terms(words):
     terms_unique = []
 
     # Get un-unique terms.
-    terms_non_unique = re.findall(r"[\w']+", words)
+    # terms_non_unique = re.findall(r"[\w']+", words)
+    terms_non_unique = words.split()
 
     for term in terms_non_unique:
         if term not in terms_unique: terms_unique.append(term)
