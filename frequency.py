@@ -55,7 +55,7 @@ def calculate_frequencies(terms, words):
 
     # Count all the occurrences.
     for term in terms:
-        count = words.count(term.lower())
+        count = words.lower().count(term.lower())
         frequency = float(count)/float(terms_total)
         print term + " " + str(frequency)
 
@@ -71,7 +71,7 @@ def main():
     tweets = load_tweets(input_file_name)
 
     # Merge tweets into a string.
-    tweets_joined = ' '.join(tweets).lower()
+    tweets_joined = ' '.join(tweets)
 
     # Get list of terms.
     terms = extract_terms(tweets_joined)
