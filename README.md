@@ -40,37 +40,40 @@ Unicode is a standard for representing a much larger variety of characters beyon
 In most circumstances, you will be able to use a unicode object just like a string.
  
 If you encounter an error involving printing unicode, you can use the encode method to properly print the international characters, like this:
-unicode_string = u"aaaàçççñññ"
-encoded_string = unicode_string.encode(‘utf-8')
-print encoded_string
-Getting Started
+	
+	unicode_string = u"aaaàçççñññ"
+	encoded_string = unicode_string.encode(‘utf-8')
+	print encoded_string
+
+## Getting Started
 There's a video walkthrough of Problem 0 and Problem 1 available. If you are brand new to Python, or if you have trouble getting the VM set up, or if the Twitter API is causing you trouble, this video may help.
 If you are new to Python, many students have recommended Google's Python class.
-Problem 0: Query Twitter with Python
+
+## Problem 0: Query Twitter with Python
 If you are using the class virtual machine, run the VM, open a terminal window, and use git to make sure you have the latest class materials. To edit the file in linux, you can use vi, emacs, or gedit.
 Use the urllib and json libraries in python to access the basic twitter search API and return JSON data.
  
 To retrieve recent tweets associated with the term “microsoft,” you use this url:
  
-http://search.twitter.com/search.json?q=microsoft
+[http://search.twitter.com/search.json?q=microsoft](http://search.twitter.com/search.json?q=microsoft)
  
 To access this url in Python and parse the response, you can use the following snippet:
-import urllib
-import json
 
-response = urllib.urlopen("http://search.twitter.com/search.json?q=microsoft")
-print json.load(response)
+	import urllib
+	import json
+
+	response = urllib.urlopen("http://search.twitter.com/search.json?q=microsoft")
+	print json.load(response)
+
 The format of the result is JSON, which stands for JavaScript Object Notation. It is a simple format for representing nested structures of data --- lists of lists of dictionaries of lists of .... you get the idea.
  
 As you might imagine, it is fairly straightforward to convert JSON data into a Python data structure. Indeed, there is a convenient library to do so, called json, which we will use.
 Twitter provides only partial documentation for understanding this data format, but it's not difficult to deduce the structure.
  
 Using this library, the json data is parsed and converted to a Python dictionary representing the entire result set. (If needed, take a moment to read the documentation for Python dictionaries).  The "results" key of this dictionary corresponds holds the actual tweets; each tweet is itself another dictionary.
- 
-a) Write a program, print.py, to print out the text of each tweet in the result.
- 
-b) Generalize your program, print.py, to fetch and print 10 pages of results. Note that you can return a different page of results by passing an additional argument in the url:
- 
+
+1. Write a program, print.py, to print out the text of each tweet in the result.
+2. Generalize your program, print.py, to fetch and print 10 pages of results. Note that you can return a different page of results by passing an additional argument in the url:
 [http://search.twitter.com/search.json?q=microsoft&page=2](http://search.twitter.com/search.json?q=microsoft&page=2)
  
 print.py should be executable in the following way:
