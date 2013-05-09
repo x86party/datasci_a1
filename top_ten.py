@@ -54,7 +54,7 @@ def extract_htags(tweets):
     htags = []
 
     for tweet in tweets:
-        htags_current = [htag for htag in tweet.split() if htag.startswith('#') and htag != '#']
+        htags_current = [htag.split('#')[1] for htag in tweet.split() if htag.startswith('#') and htag != '#']
         if len(htags_current) > 0 : htags += htags_current
 
     return htags
