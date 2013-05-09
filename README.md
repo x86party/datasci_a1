@@ -84,7 +84,7 @@ When executed, the script should print each tweet on an individual line to stdou
  
 What to turn in: Nothing. This is a warmup exercise.
 
-# Problem 1: Get Twitter Data
+## Problem 1: Get Twitter Data
  
 As always, the first step is to make sure your assignment materials up to date.
  
