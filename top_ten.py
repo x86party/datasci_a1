@@ -76,7 +76,7 @@ def top_ten(htags):
     frequencies_sorted = sorted(frequencies, key=itemgetter(1), reverse=True)
 
     for i in range(0,10):
-        print frequencies_sorted[i][0] + " " + str(frequencies_sorted[i][1])
+        print frequencies_sorted[i][0] + " " + str(float(frequencies_sorted[i][1]))
 
 # -------------------------------------------------------------------------------
 # main()
