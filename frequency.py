@@ -3,7 +3,7 @@
 
 import sys
 import json
-import re
+# import re
 
 me = "frequency.py"
 
@@ -52,11 +52,12 @@ def calculate_frequencies(terms, words):
     #print me+"::calculate_frequencies"
 
     # Calculate number of terms in all tweets.
-    terms_total = len(re.findall(r"[\w']+", words))
+    # terms_total = len(re.findall(r"[\w']+", words))
+    terms_total = len(words.split())
 
     # Count all the occurrences.
     for term in terms:
-        count = words.lower().count(term.lower())
+        count = words.count(term)
         frequency = float(count)/float(terms_total)
         print term + " " + str(frequency)
 
