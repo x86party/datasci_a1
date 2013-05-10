@@ -38,11 +38,12 @@ def ingest_tweets(fn):
     for tweet in tweets_file:
         # Parse input strings as JSON.
         json_tweet = json.loads(tweet)
+        tweets.append(json_tweet)
 
         # Check that there is a text field.
-        if "text" in json_tweet.keys():
-            text = json_tweet["text"].encode('utf-8')
-            tweets.append(text)
+        #if "text" in json_tweet.keys():
+        #    text = json_tweet["text"].encode('utf-8')
+        #    tweets.append(text)
 
     return tweets
 
@@ -54,8 +55,16 @@ def extract_htags(tweets):
     htags = []
 
     for tweet in tweets:
-        htags_current = [htag.split('#')[1] for htag in tweet.split() if htag.startswith('#') and htag != '#']
-        if len(htags_current) > 0 : htags += htags_current
+        #htags_current = [htag.split('#')[1] for htag in tweet.split() if htag.startswith('#') and htag != '#']
+        #if len(htags_current) > 0 : htags += htags_current
+        #print htags_current
+
+        # Ensure that there is an entities element to extract.
+        if "entities" in tweet.keys() and "hashtags" in tweet["entities"]:
+
+            for htag in tweet["entities"]["hashtags"]:
+                unicode_tag = htag["text"].encode('utf-8')
+                htags.append(unicode_tag)
 
     return htags
 
