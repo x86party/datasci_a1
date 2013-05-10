@@ -1,10 +1,10 @@
 # term_sentiment.py
 # Author: Tom Ravenscroft
-# Any word not in AFINN-111.txt should be given a score of 0.
+# Any word not in AFINN-111.txt must have a new score calculated
+# based on the score of other tweets it appears in.
 
 import sys
 import json
-import re
 
 # -------------------------------------------------------------------------------
 # ingest_scores()
@@ -47,24 +47,52 @@ def ingest_tweets(fn):
 
 # -------------------------------------------------------------------------------
 # judge_sentiments()
+# Note: This is definitely not the most efficient approach. But it does work.
 # -------------------------------------------------------------------------------
 def judge_sentiments(tweets, sentiments):
     """Compile a sentiment score for every tweet in a list."""
 
+    tweet_scores = []
+    term_sentiments = {}
+
     # Iterate over tweets.
     for tweet in tweets:
         tweet_score = 0
-        tweet_words = re.findall(r"[\w']+", tweet)
+        tweet_words = tweet.split()
 
-        # Get the score of a tweet.
+        # Iterate over words in tweet.
         for word in tweet_words:
+            # Score the current word and add its score to the corresponding tweet score.
             word_score = sentiments[word.lower()] if word.lower() in sentiments else 0
             tweet_score += word_score
 
-        # Print the score of all words.
-        for word in tweet_words:
-            word_score = sentiments[word.lower()] if word.lower() in sentiments else (float(tweet_score)/len(tweet_words))
-            print word + " " + str(float(word_score))
+            # Add the term and its sentiment to the dict.
+            if word not in term_sentiments.keys():
+                term_sentiments[word] = word_score
+
+        # Add the tweet and score to tweet_scores.
+        tweet_scores.append([tweet,tweet_score])
+
+    # Every term in the dictionary of terms.
+    for term in term_sentiments:
+
+        # Check if a term is in the known sentiments.
+        if term not in sentiments:
+            # Unknown terms have a base score of zero and we assume we've seen them at least once.
+            new_score = 0
+            num_occurances = 1
+
+            # Find all of the tweets that contain the new term.
+            for i in range(0,len(tweet_scores)):
+                if term in tweet_scores[i][0]:
+                    new_score += tweet_scores[i][1]
+                    num_occurances += 1
+
+            # Normalise the new score by number of occurrences.
+            new_score /= num_occurances
+            term_sentiments[term] = new_score
+
+        print term+" "+str(float(term_sentiments[term]))
 
 # -------------------------------------------------------------------------------
 # main()
